@@ -5,6 +5,9 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 //environment variable or you can say constants 
 
+//routes 
+const userRoutes = require("./routes/user")
+
 env.config();
 
 //mongodb connection 
@@ -13,7 +16,8 @@ mongoose.connect(
     `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.i0vcr.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
      {
          useNewUrlParser: true, 
-         useUnifiedTopology: true
+         useUnifiedTopology: true,
+         useCreateIndex: true
     }).then(() => {
         console.log("Database Connected!!")
     });
@@ -22,17 +26,7 @@ mongoose.connect(
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-app.get("/", (req, res, next) => {
-    res.status(200).json({
-        message: "Hello from Server"
-    })
-})
-
-app.post("/data", (req, res, next) => {
-    res.status(200).json({
-        message: req.body
-    })
-})
+app.use("/api", userRoutes);
 
 
 
