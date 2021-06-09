@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const path = require("path")
+const cors = require("cors")
 //environment variable or you can say constants 
 
 //routes 
@@ -30,6 +31,7 @@ mongoose.connect(
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+app.use(cors())
 app.use("/public", express.static(path.join(__dirname, 'uploads')))
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
